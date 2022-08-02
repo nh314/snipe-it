@@ -7,20 +7,7 @@
 @parent
 @stop
 
-{{-- Right header --}}
-@section('header_right')
-<div class="btn-group pull-right">
-  @can('update', $license)
-    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{ trans('button.actions') }}
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li role="menuitem"><a href="{{ route('licenses.edit', ['license' => $license->id]) }}">{{ trans('admin/licenses/general.edit') }}</a></li>
-        <li role="menuitem"><a href="{{ route('clone/license', $license->id) }}">{{ trans('admin/licenses/general.clone') }}</a></li>
-    </ul>
-   @endcan
-</div>
-@stop
+
 
 {{-- Page content --}}
 @section('content')
@@ -78,8 +65,8 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="{{ route('licenses.edit', $user->id) }}">{{ trans('admin/users/general.edit') }}</a></li>
-              <li><a href="{{ route('clone/license', $user->id) }}">{{ trans('admin/users/general.clone') }}</a></li>
+              <li role="menuitem"><a href="{{ route('licenses.edit', ['license' => $license->id]) }}">{{ trans('admin/licenses/general.edit') }}</a></li>
+              <li role="menuitem"><a href="{{ route('clone/license', $license->id) }}">{{ trans('admin/licenses/general.clone') }}</a></li>
             </ul>
           </li>
         @endcan

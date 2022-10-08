@@ -343,6 +343,30 @@
                         </div>
                       </div>
 
+                   <!-- start date -->
+                   @if ($user->start_date)
+                       <div class="row">
+                           <div class="col-md-3">
+                               {{ trans('general.start_date') }}
+                           </div>
+                           <div class="col-md-9">
+                               {{ \App\Helpers\Helper::getFormattedDateObject($user->start_date, 'date', false) }}
+                           </div>
+                       </div>
+                   @endif
+
+                   <!-- end date -->
+                   @if ($user->end_date)
+                       <div class="row">
+                           <div class="col-md-3">
+                               {{ trans('general.end_date') }}
+                           </div>
+                           <div class="col-md-9">
+                               {{ \App\Helpers\Helper::getFormattedDateObject($user->end_date, 'date', false) }}
+                           </div>
+                       </div>
+                   @endif
+
                     @if ($user->jobtitle)
                      <!-- jobtitle -->
                      <div class="row">
@@ -842,7 +866,7 @@
                                 {{ $file->filename }}
                             </td>
                             <td>
-                                {{ Helper::formatFilesizeUnits(filesize(storage_path('private_uploads/users/').$file->filename)) }}
+                                {{ Helper::formatFilesizeUnits(Storage::size('private_uploads/users/'.$file->filename)) }}
                             </td>
 
                             <td>
@@ -908,6 +932,9 @@
                 <th class="col-sm-3" data-field="created_at" data-formatter="dateDisplayFormatter" data-sortable="true">{{ trans('general.date') }}</th>
                 <th class="col-sm-2" data-field="admin" data-formatter="usersLinkObjFormatter">{{ trans('general.admin') }}</th>
                 <th class="col-sm-2" data-field="action_type">{{ trans('general.action') }}</th>
+                  @if  ($snipeSettings->require_accept_signature=='1')
+                      <th class="col-md-3" data-field="signature_file" data-visible="false"  data-formatter="imageFormatter">{{ trans('general.signature') }}</th>
+                  @endif
                 <th class="col-sm-3" data-field="item" data-formatter="polymorphicItemFormatter">{{ trans('general.item') }}</th>
                 <th class="col-sm-2" data-field="target" data-formatter="polymorphicItemFormatter">{{ trans('general.target') }}</th>
               </tr>

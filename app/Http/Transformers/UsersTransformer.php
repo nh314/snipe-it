@@ -30,10 +30,10 @@ class UsersTransformer
                 'username' => e($user->username),
                 'remote' => ($user->remote == '1') ? true : false,
                 'locale' => ($user->locale) ? e($user->locale) : null,
-                'employee_num' => e($user->employee_num),
+                'employee_num' => ($user->employee_num) ? e($user->employee_num) : null,
                 'manager' => ($user->manager) ? [
                     'id' => (int) $user->manager->id,
-                    'name'=> e($user->manager->username),
+                    'name'=> e($user->manager->first_name).' '.e($user->manager->last_name),
                 ] : null,
                 'jobtitle' => ($user->jobtitle) ? e($user->jobtitle) : null,
                 'phone' => ($user->phone) ? e($user->phone) : null,
@@ -43,7 +43,7 @@ class UsersTransformer
                 'state' => ($user->state) ? e($user->state) : null,
                 'country' => ($user->country) ? e($user->country) : null,
                 'zip' => ($user->zip) ? e($user->zip) : null,
-                'email' => e($user->email),
+                'email' => ($user->email) ? e($user->email) : null,
                 'department' => ($user->department) ? [
                     'id' => (int) $user->department->id,
                     'name'=> e($user->department->name),
@@ -69,13 +69,15 @@ class UsersTransformer
                 ] : null,
                 'created_at' => Helper::getFormattedDateObject($user->created_at, 'datetime'),
                 'updated_at' => Helper::getFormattedDateObject($user->updated_at, 'datetime'),
+                'start_date' => Helper::getFormattedDateObject($user->start_date, 'date'),
+                'end_date' => Helper::getFormattedDateObject($user->end_date, 'date'),
                 'last_login' => Helper::getFormattedDateObject($user->last_login, 'datetime'),
                 'deleted_at' => ($user->deleted_at) ? Helper::getFormattedDateObject($user->deleted_at, 'datetime') : null,
             ];
 
         $permissions_array['available_actions'] = [
             'update' => (Gate::allows('update', User::class) && ($user->deleted_at == '')),
-            'delete' => (Gate::allows('delete', User::class) && ($user->assets_count == 0) && ($user->licenses_count == 0) && ($user->accessories_count == 0) && ($user->consumables_count == 0)),
+            'delete' => (Gate::allows('delete', User::class) && ($user->assets_count == 0) && ($user->licenses_count == 0) && ($user->accessories_count == 0)),
             'clone' => (Gate::allows('create', User::class) && ($user->deleted_at == '')),
             'restore' => (Gate::allows('create', User::class) && ($user->deleted_at != '')),
         ];

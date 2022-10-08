@@ -154,8 +154,8 @@
                                             <td>
                                                 {{ $file->filename }}
                                             </td>
-                                            <td data-value="{{ filesize(storage_path('private_uploads/assetmodels/').$file->filename) }}">
-                                                {{ Helper::formatFilesizeUnits(filesize(storage_path('private_uploads/assetmodels/').$file->filename)) }}
+                                            <td data-value="{{ Storage::size('private_uploads/assetmodels/'.$file->filename) }}">
+                                                {{ Helper::formatFilesizeUnits(Storage::size('private_uploads/assetmodels/'.$file->filename)) }}
                                             </td>
                                             <td>
                                                 @if ($file->note)
@@ -221,6 +221,12 @@
 
 
                 <ul class="list-unstyled" style="line-height: 25px;">
+                    @if ($model->category)
+                        <li>{{ trans('general.category') }}:
+                            <a href="{{ route('categories.show', $model->category->id) }}">{{ $model->category->name }}</a>
+                        </li>
+                    @endif
+
                     @if ($model->manufacturer)
                         <li>
                             {{ trans('general.manufacturer') }}:
